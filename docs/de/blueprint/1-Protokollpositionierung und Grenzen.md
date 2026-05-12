@@ -1,0 +1,65 @@
+## Kapitel 1: Protokollpositionierung und Grenzen
+
+### 1.1 Die Rolle von CAP im iFay-Ökosystem
+
+Das Control Authority Protocol (CAP) übernimmt im iFay-Ökosystem eine einzige und klar definierte Kernverantwortung: **Überprüfung, ob ein Fay (iFay oder coFay) von seinem menschlichen Wirt (Natural_Person) oder offiziellen Posten (Official_Post) autorisiert wurde, um rechtmäßig auf Endgeräteressourcen (Terminal_Resource) zuzugreifen**.
+
+Im Einzelnen ist das CAP-Protokoll für folgende Aufgaben verantwortlich:
+
+- **Autorisierungsüberprüfung**: Wenn ein Fay den Zugriff auf Software- oder Hardwareressourcen eines Endgeräts anfordert, überprüft das CAP-Protokoll, ob die mitgeführten Autorisierungsnachweise (Authorization_Descriptor oder Trusted_Ticket) legitim, gültig und nicht widerrufen sind. Beispielsweise muss das Endgerät, wenn der iFay eines Benutzers die Handykamera zum Fotografieren öffnen möchte, zunächst überprüfen, ob dieser iFay tatsächlich vom Benutzer zur Nutzung der Kamera autorisiert wurde
+- **Sitzungsverwaltung**: Einrichtung von Kontrollsitzungen (Sessions) für Fays, die die Autorisierungsüberprüfung bestanden haben, und Verwaltung des vollständigen Lebenszyklus dieser Sitzungen. Beispielsweise stellt der gesamte Prozess vom Öffnen bis zum Schließen des Browsers eine vollständige Kontrollsitzung dar, nachdem ein iFay autorisiert wurde und den Browser bedient
+- **Kontrollkoordination**: Koordination der Zuweisung und Übergabe der Kontrolle über Endgeräteressourcen zwischen mehreren Fays oder zwischen Fays und menschlichen Benutzern. Beispielsweise muss eine manuell gesteuerte Drohne an einen Fay für autonomen Flug übergeben werden; oder zwei iFays müssen nacheinander denselben Drucker verwenden
+- **Abgestufte Ressourcenzugriffskontrolle**: Abgestufte Verwaltung des Ressourcenzugriffs nach Operationstyp (Lesen, Schreiben, Ausführen, Konfigurieren). Beispielsweise benötigt ein iFay zum Lesen von Temperatursensordaten nur die read-Berechtigung, während die Änderung der Klimaanlagentemperatur die write-Berechtigung erfordert
+- **Aktivitätserkennung**: Überwachung des Aktivitätsstatus aktiver Sitzungen und rechtzeitige Rückgewinnung von Ressourcen, die von abgelaufenen Sitzungen belegt werden. Beispielsweise erkennt das Endgerät nach einem Verbindungsverlust des iFay aufgrund einer Netzwerkunterbrechung ein Heartbeat-Timeout und gibt automatisch die vom iFay belegte Kamerakontrolle frei, um zu verhindern, dass Ressourcen dauerhaft von „Zombie-Sitzungen" gesperrt werden
+
+Das CAP-Protokoll ist die entscheidende Brücke zwischen intelligenten Agenten und Endgeräteressourcen im iFay-Ökosystem – es kümmert sich nicht darum, wer ein Fay ist oder was er kann, sondern nur darum, ob ein Fay berechtigt ist, eine bestimmte Aktion auszuführen.
+
+### 1.2 Verantwortlichkeiten außerhalb des CAP-Zuständigkeitsbereichs
+
+Um klare Zuständigkeitsgrenzen zu gewährleisten, ist das CAP-Protokoll ausdrücklich nicht für folgende Bereiche verantwortlich:
+
+1. **Erstellung und Verwaltung der Fay-Identität**: Die Registrierung von Fay-Entitäten, die Zuweisung von Identitätskennungen, die Pflege von Identitätsattributen und andere Aufgaben werden vom Identitätsverwaltungs-Subsystem des iFay-Ökosystems übernommen. CAP nutzt Identitätsinformationen lediglich für die Autorisierungsüberprüfung und beteiligt sich nicht am Prozess der Identitätserstellung und -verwaltung. Beispielsweise wird „wie dieser iFay heißt und wem er gehört" vom Identitätsverwaltungssystem bestimmt; CAP kümmert sich nur darum, „ob dieser iFay die Kamera benutzen darf"
+2. **Intelligente Schlussfolgerungsfähigkeiten der Fays**: Wie ein Fay Benutzerabsichten versteht, Operationsschritte plant und intelligente Schlussfolgerungen durchführt, gehört zur Intelligenzschicht des Fay selbst und hat keinen Bezug zum CAP-Protokoll. CAP stellt keine Annahmen oder Anforderungen an das Intelligenzniveau eines Fay. Beispielsweise entscheidet ein iFay, zuerst den Browser zu öffnen und dann nach Flugtickets zu suchen — dieser Entscheidungsprozess hat nichts mit CAP zu tun; CAP führt die Autorisierungsüberprüfung erst durch, wenn der iFay tatsächlich das Öffnen des Browsers anfordert
+3. **Spezifische Geschäftslogik der Endgeräteressourcen**: Wie Software auf dem Endgerät auf Operationsbefehle reagiert und wie Hardware spezifische Funktionen ausführt, liegt in der Verantwortung der Endgeräteressourcen selbst. CAP ist ausschließlich für die Autorisierungsüberprüfung und Zugriffskontrolle verantwortlich und greift nicht in die spezifische Geschäftsverarbeitung der Ressourcen ein. Beispielsweise sind die Seitenformatierung des Druckers oder die Wahl der Tintenpatrone die eigene Geschäftslogik des Druckers; CAP überprüft lediglich, ob der iFay das Recht hat, den Drucker zu benutzen
+4. **Implementierung von Netzwerkkommunikationsprotokollen**: CAP definiert den logischen Ablauf der Autorisierungsüberprüfung und die Nachrichtenformate, schreibt jedoch nicht die spezifische Implementierung der zugrunde liegenden Netzwerktransportprotokolle vor. Beispielsweise schränkt CAP nicht ein, ob das Endgerät mit iFay_Runtime über WebSocket oder gRPC kommuniziert
+5. **Interne Sicherheitsmechanismen des Endgerätebetriebssystems**: Die eigene Benutzerrechteverwaltung, Sandbox-Isolierung, Prozesssicherheit und andere Mechanismen des Betriebssystems fallen nicht in den Zuständigkeitsbereich von CAP. CAP arbeitet über Integrationsschnittstellen mit dem Betriebssystem zusammen. Beispielsweise wird der Anwendungs-Sandbox-Mechanismus von Android von Android selbst verwaltet; CAP erteilt Zugriffskontrollanweisungen über die von Android bereitgestellten Schnittstellen
+
+### 1.3 Beziehungen zu anderen Teilprojekten
+
+Das CAP-Protokoll hat im iFay-Ökosystem klar definierte Interaktionsbeziehungen mit folgenden Teilprojekten:
+
+| Teilprojekt | Beziehungsbeschreibung | Interaktionsgrenze |
+|-------------|----------------------|-------------------|
+| **iFay_Runtime** | Hauptaufrufer von CAP. iFay_Runtime ist für das Lebenszyklusmanagement und die Planung von Fay-Instanzen verantwortlich. Wenn ein Fay auf Endgeräteressourcen zugreifen muss, initiiert iFay_Runtime stellvertretend die Kontrollanfrage | iFay_Runtime → CAP: Initiiert Autorisierungsüberprüfungsanfrage; CAP → iFay_Runtime: Gibt Überprüfungsergebnis und Sitzungsinformationen zurück |
+| **Registration_Authority** | Vertrauensinfrastruktur-Abhängigkeit von CAP. Registration_Authority ist für die Registrierung von Endgerätehardware, -software und -betriebssystemen verantwortlich und verteilt Überprüfungsschlüssel (Verification_Key) an Endgeräte | Registration_Authority → Endgerät: Verteilt Verification_Key; Endgerät verwendet Verification_Key zur Überprüfung der Signatur des Authorization_Descriptor |
+| **Descriptor_Issuer** | Quelle der Autorisierungsnachweise für CAP. Descriptor_Issuer ist nach Autorisierung durch Natural_Person oder Official_Post für die Erstellung und Ausstellung von Authorization_Descriptors verantwortlich | Descriptor_Issuer → Fay: Stellt Authorization_Descriptor aus; Fay legt Authorization_Descriptor vor, um Zugriff auf das Endgerät anzufordern |
+| **Identitätsverwaltungs-Subsystem** | Quelle der Identitätsinformationen für CAP. CAP referenziert während der Autorisierungsüberprüfung die Identitätskennung des Fay, beteiligt sich jedoch nicht an der Erstellung und Verwaltung von Identitäten | Identitätsverwaltung → CAP: Stellt Fay-Identitätsinformationen bereit (einseitige Abhängigkeit) |
+
+Das Designprinzip des CAP-Protokolls besteht darin, die Kohäsion seiner eigenen Verantwortlichkeiten zu wahren: Es führt ausschließlich Autorisierungsüberprüfung und Kontrollrechteverwaltung durch und überlässt Identitätsverwaltung, intelligente Schlussfolgerung, Ressourcen-Geschäftslogik und andere Verantwortlichkeiten den anderen Teilprojekten des Ökosystems.
+
+### 1.4 Anwendungsszenarien
+
+Das Kernanwendungsszenario des CAP-Protokolls ist: **iFay übernimmt das Endgerät seines menschlichen Wirts und nutzt die Software und Hardware des Endgeräts wie ein Mensch**.
+
+In diesem Szenario überträgt der menschliche Wirt (Natural_Person) die teilweise oder vollständige Kontrolle über sein Endgerät an seinen iFay, der stellvertretend die Client-Software (wie Browser, E-Mail-Client, Bürosoftware) und Hardware-Geräte (wie Kamera, Mikrofon, Speichergeräte) auf dem Endgerät bedient. Das CAP-Protokoll stellt in diesem Prozess sicher:
+
+- **Legitimität der Autorisierung**: Das Endgerät kann überprüfen, dass der iFay tatsächlich die Autorisierung des menschlichen Wirts erhalten hat und es sich nicht um einen unbefugten Zugriff handelt. Beispielsweise wird das Endgerät den Zugriff verweigern, wenn Zhang Sans iFay versucht, Li Sis Laptop zu bedienen, da die von Li Si ausgestellten Autorisierungsnachweise fehlen
+- **Offline-Verfügbarkeit**: Selbst wenn das Endgerät offline ist, kann der iFay mit einem gültigen Authorization_Descriptor weiterhin rechtmäßig auf die autorisierten Ressourcen zugreifen. Beispielsweise kann der iFay eines Benutzers, der im Flugzeug den Flugmodus aktiviert hat, weiterhin die Bürosoftware auf dem Laptop mit der vorab gespeicherten Offline-Autorisierungsdatei bedienen
+- **Mehrseitige Koordination**: Wenn mehrere Fays oder Fays und menschliche Benutzer gleichzeitig auf dieselbe Endgeräteressource zugreifen müssen, bietet das CAP-Protokoll Fähigkeiten zur Kontrollübergabe und Verwaltung der Ressourcenzugriffsmodi. Beispielsweise fotografiert ein Benutzer gerade mit seinem Telefon, als der iFay ebenfalls die Kamera zum Scannen eines Dokuments benötigt — das CAP-Protokoll koordiniert die Nutzungsreihenfolge zwischen beiden
+- **Sicherheit und Kontrollierbarkeit**: Alle Autorisierungsüberprüfungen und Ressourcenzugriffsoperationen können auditiert werden, und Autorisierungen können jederzeit widerrufen werden. Beispielsweise kann ein Benutzer, der ein abnormales Verhalten seines iFay feststellt, sofort dessen Autorisierung für alle Endgeräteressourcen widerrufen, und die aktiven Sitzungen des iFay werden zwangsweise beendet
+
+Derselbe Protokollrahmen gilt auch für das coFay-Szenario – kollaborative Fay-Entitäten übernehmen nach Autorisierung durch einen offiziellen Posten (Official_Post) organisatorische Endgeräte zur Ausführung kollaborativer Aufgaben.
+
+### 1.5 Grundlegende Designprinzipien
+
+Das CAP-Protokoll folgt dem grundlegenden Designprinzip **Offline-Priorität, Online-Ergänzung**.
+
+**Offline-Autorisierung (Authorization_Descriptor) ist der Kernmechanismus.** Endgeräte sollten einem Fay nicht vollständig die Übernahmerechte entziehen, nur weil das Netzwerk nicht verfügbar ist. Wenn ein Fay zuvor die Autorisierung seines menschlichen Wirts erhalten hat, sollte diese Autorisierungsbeziehung in Form einer verschlüsselten Datei lokal auf dem Endgerät gespeichert werden, damit das Endgerät die Autorisierungsüberprüfung auch im Offline-Zustand eigenständig durchführen kann. Der Authorization_Descriptor ist die konkrete Umsetzung dieses Konzepts – eine verschlüsselte Autorisierungsbeschreibungsdatei, die lokal auf dem Endgerät gespeichert ist und den Ressourcenumfang, die Berechtigungstypen und die Gültigkeitsdauer enthält, für die der Fay autorisiert ist. Der Descriptor_Validator auf der Endgeräteseite kann die Überprüfung ohne Netzwerkverbindung durchführen.
+
+**Online-Tickets (Trusted_Ticket) sind der ergänzende Mechanismus.** In vernetzten Umgebungen bietet das Trusted_Ticket Echtzeit-Autorisierungsausstellung und Widerrufsstatus-Abfragefähigkeiten und gleicht die Defizite der Offline-Autorisierung in Bezug auf Aktualität und Widerrufsreaktionsgeschwindigkeit aus. Wenn Online-Dienste verfügbar sind, kann das Endgerät über das Trusted_Ticket den neuesten Autorisierungsstatus abrufen; wenn Online-Dienste nicht verfügbar sind, fällt das Endgerät automatisch auf die lokale Authorization_Descriptor-Überprüfung zurück, um eine unterbrechungsfreie Dienstleistung zu gewährleisten.
+
+Die Kernüberlegungen dieses Designprinzips sind:
+
+- **Verfügbarkeit hat Vorrang**: Netzwerkunterbrechungen sollten kein Grund dafür sein, dass ein Fay nicht arbeiten kann. Die Offline-Autorisierung gewährleistet die grundlegende Verfügbarkeit. Beispielsweise kann der iFay eines Benutzers, dessen Telefonsignal in der U-Bahn unterbrochen wird, weiterhin die Offline-Apps auf dem Telefon mit der lokalen Autorisierungsdatei bedienen
+- **Erhöhte Sicherheit**: Online-Tickets bieten bei bestehender Netzwerkverbindung stärkere Echtzeit-Sicherheitsgarantien, einschließlich sofortigem Widerruf und dynamischer Berechtigungsanpassung
+- **Schrittweise Degradation**: Der Übergang von Online zu Offline erfolgt nahtlos und führt nicht zu einer plötzlichen Dienstunterbrechung. Online ausgestellte Trusted_Tickets können in das lokale Authorization_Descriptor-Format konvertiert werden, um offline genutzt zu werden. Beispielsweise autorisiert ein Benutzer seinen iFay über ein Online-Ticket zur Nutzung der Kamera im WLAN; wenn der Benutzer den WLAN-Abdeckungsbereich verlässt, wird die Autorisierung automatisch in den Offline-Modus herabgestuft und bleibt weiterhin gültig

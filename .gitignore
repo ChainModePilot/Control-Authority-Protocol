@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+
+# OS files
+.DS_Store
+
+# IDE / Editor
+.kiro/
+
+# Temp files
+0
+
+# Build & Config (not tracked yet)
+package.json
+package-lock.json
+tsconfig.json
+vitest.config.ts
+tests/
