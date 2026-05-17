@@ -1,6 +1,6 @@
 # CAP Architecture Blueprint
 
-Control Authority Protocol (CAP) defines how terminal devices verify that a Fay (iFay or coFay) has been authorized by its human host to legitimately access terminal resources. The protocol uses an offline Authorization_Descriptor as its core mechanism, supplemented by an online Trusted_Ticket, covering authorization verification, session management, control authority handover, resource access modes, and liveness detection. It provides a standardized control authority framework for intelligent agents in the iFay ecosystem to securely take over terminal software and hardware.
+Control Authority Protocol (CAP) defines how terminal devices verify that a Fay (iFay or coFay) has been authorized by its Human Prime to legitimately access terminal resources. The protocol uses an offline Authorization_Descriptor as its core mechanism, supplemented by an online Trusted_Ticket, covering authorization verification, session management, control authority handover, resource access modes, and liveness detection. It provides a standardized control authority framework for intelligent agents in the iFay ecosystem to securely take over terminal software and hardware.
 
 ## Glossary
 

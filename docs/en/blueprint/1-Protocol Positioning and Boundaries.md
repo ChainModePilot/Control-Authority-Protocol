@@ -2,7 +2,7 @@
 
 ### 1.1 CAP's Role in the iFay Ecosystem
 
-Control Authority Protocol (CAP) assumes a single and well-defined core responsibility within the iFay ecosystem: **verifying whether a Fay (iFay or coFay) has been authorized by its human host (Natural_Person) or official post (Official_Post) to legitimately access terminal resources (Terminal_Resource)**.
+Control Authority Protocol (CAP) assumes a single and well-defined core responsibility within the iFay ecosystem: **verifying whether a Fay (iFay or coFay) has been authorized by its Human Prime (Natural_Person) or official post (Official_Post) to legitimately access terminal resources (Terminal_Resource)**.
 
 Specifically, the CAP protocol is responsible for the following:
 
@@ -39,11 +39,11 @@ The design principle of the CAP protocol is to maintain the cohesion of its own 
 
 ### 1.4 Applicable Scenarios
 
-The core applicable scenario for the CAP protocol is: **an iFay takes over its human host's terminal, using the terminal's software and invoking the terminal's hardware just as a human would**.
+The core applicable scenario for the CAP protocol is: **an iFay takes over its Human Prime's terminal, using the terminal's software and invoking the terminal's hardware just as a human would**.
 
-In this scenario, the human host (Natural_Person) grants partial or full control of their terminal device to their iFay, which operates the terminal's client software (such as browsers, email clients, office software) and hardware devices (such as cameras, microphones, storage devices) on their behalf. The CAP protocol ensures that during this process:
+In this scenario, the Human Prime (Natural_Person) grants partial or full control of their terminal device to their iFay, which operates the terminal's client software (such as browsers, email clients, office software) and hardware devices (such as cameras, microphones, storage devices) on their behalf. The CAP protocol ensures that during this process:
 
-- **Authorization Legitimacy**: The terminal can verify that the iFay has indeed been authorized by the human host, rather than being an unauthorized illegal access. For example, if Zhang San's iFay attempts to operate Li Si's laptop, the terminal will deny access due to the lack of authorization credentials issued by Li Si
+- **Authorization Legitimacy**: The terminal can verify that the iFay has indeed been authorized by the Human Prime, rather than being an unauthorized illegal access. For example, if Zhang San's iFay attempts to operate Li Si's laptop, the terminal will deny access due to the lack of authorization credentials issued by Li Si
 - **Offline Availability**: Even when the terminal is offline, as long as the iFay holds a valid Authorization_Descriptor, it can still legitimately access authorized resources. For example, when a user enables airplane mode on a flight, their iFay can still continue operating office software on the laptop using the pre-stored offline authorization file
 - **Multi-party Coordination**: When multiple Fays or Fays and human users simultaneously need to access the same terminal resource, the CAP protocol provides control authority handover and resource access mode management capabilities. For example, a user is taking photos with their phone when the iFay also needs to use the camera for document scanning — the CAP protocol coordinates the usage order between the two
 - **Security and Controllability**: All authorization verification and resource access operations can be audited, and authorization can be revoked at any time. For example, if a user discovers abnormal behavior from their iFay, they can immediately revoke its authorization for all terminal resources, and the iFay's active sessions will be forcibly terminated
@@ -54,7 +54,7 @@ The same protocol framework also applies to coFay scenarios — collaborative Fa
 
 The CAP protocol follows the core design principle of **offline-first, online-supplementary**.
 
-**Offline authorization (Authorization_Descriptor) is the core mechanism.** Terminal devices should not be completely stripped of a Fay's takeover rights due to network unavailability. If a Fay has previously been authorized by its human host, this authorization relationship should be stored locally on the terminal in the form of an encrypted file, enabling the terminal to independently complete authorization verification while offline. Authorization_Descriptor is the concrete implementation of this concept — it is an encrypted authorization descriptor file stored locally on the terminal, containing the scope of resources, permission types, and validity period for which the Fay is authorized. The terminal can complete verification through the local Descriptor_Validator without requiring network connectivity.
+**Offline authorization (Authorization_Descriptor) is the core mechanism.** Terminal devices should not be completely stripped of a Fay's takeover rights due to network unavailability. If a Fay has previously been authorized by its Human Prime, this authorization relationship should be stored locally on the terminal in the form of an encrypted file, enabling the terminal to independently complete authorization verification while offline. Authorization_Descriptor is the concrete implementation of this concept — it is an encrypted authorization descriptor file stored locally on the terminal, containing the scope of resources, permission types, and validity period for which the Fay is authorized. The terminal can complete verification through the local Descriptor_Validator without requiring network connectivity.
 
 **Online tickets (Trusted_Ticket) are the supplementary mechanism.** In connected environments, Trusted_Tickets provide real-time authorization issuance and revocation status query capabilities, compensating for the shortcomings of offline authorization in terms of timeliness and revocation response speed. When online services are available, the terminal can obtain the latest authorization status through Trusted_Tickets; when online services are unavailable, the terminal automatically falls back to local Authorization_Descriptor verification, ensuring uninterrupted service.
 

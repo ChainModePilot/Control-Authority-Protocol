@@ -1,6 +1,6 @@
 # Plan d'architecture CAP
 
-Le Control Authority Protocol (CAP) définit la manière dont les terminaux vérifient qu'un Fay (iFay ou coFay) a été autorisé par son hôte humain à accéder légitimement aux ressources du terminal. Le protocole repose sur un fichier de description d'autorisation hors ligne (Authorization_Descriptor) comme mécanisme principal, complété par un ticket de confiance en ligne (Trusted_Ticket), couvrant la vérification d'autorisation, la gestion des sessions, le transfert de contrôle, les modes d'accès aux ressources et la détection de vivacité. Il fournit un cadre standardisé de contrôle des autorisations permettant aux agents intelligents de l'écosystème iFay de prendre en charge de manière sécurisée les logiciels et matériels des terminaux.
+Le Control Authority Protocol (CAP) définit la manière dont les terminaux vérifient qu'un Fay (iFay ou coFay) a été autorisé par son Human Prime à accéder légitimement aux ressources du terminal. Le protocole repose sur un fichier de description d'autorisation hors ligne (Authorization_Descriptor) comme mécanisme principal, complété par un ticket de confiance en ligne (Trusted_Ticket), couvrant la vérification d'autorisation, la gestion des sessions, le transfert de contrôle, les modes d'accès aux ressources et la détection de vivacité. Il fournit un cadre standardisé de contrôle des autorisations permettant aux agents intelligents de l'écosystème iFay de prendre en charge de manière sécurisée les logiciels et matériels des terminaux.
 
 ## Glossaire
 
